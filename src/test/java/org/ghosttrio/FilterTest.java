@@ -108,4 +108,61 @@ class FilterTest {
         assertEquals("안녕", result);
     }
 
+    @Test
+    void 커스텀_파일을_이용해_나쁜말을_필터링한다() {
+        boolean b1 = badWordFilter.booleanFilter("안녕", "src/test/resources/file.csv");
+        boolean b2 = badWordFilter.booleanFilter("안녕", "src/test/resources/file.json");
+        boolean b3 = badWordFilter.booleanFilter("안녕", "src/test/resources/file.txt");
+
+        boolean b4 = badWordFilter.booleanFilter("ㅅㅂ", "src/test/resources/file.csv");
+        boolean b5 = badWordFilter.booleanFilter("ㅅㅂ", "src/test/resources/file.json");
+        boolean b6 = badWordFilter.booleanFilter("ㅅㅂ", "src/test/resources/file.txt");
+
+        String a1 = badWordFilter.asteriskFilter("안녕", "src/test/resources/file.csv");
+        String a2 = badWordFilter.asteriskFilter("안녕", "src/test/resources/file.json");
+        String a3 = badWordFilter.asteriskFilter("안녕", "src/test/resources/file.txt");
+
+        String a4 = badWordFilter.asteriskFilter("ㅅㅂ", "src/test/resources/file.csv");
+        String a5 = badWordFilter.asteriskFilter("ㅅㅂ", "src/test/resources/file.json");
+        String a6 = badWordFilter.asteriskFilter("ㅅㅂ", "src/test/resources/file.txt");
+
+        String bl1 = badWordFilter.blankFilter("안녕", "src/test/resources/file.csv");
+        String bl2 = badWordFilter.blankFilter("안녕", "src/test/resources/file.json");
+        String bl3 = badWordFilter.blankFilter("안녕", "src/test/resources/file.txt");
+
+        String bl4 = badWordFilter.blankFilter("ㅅㅂ", "src/test/resources/file.csv");
+        String bl5 = badWordFilter.blankFilter("ㅅㅂ", "src/test/resources/file.json");
+        String bl6 = badWordFilter.blankFilter("ㅅㅂ", "src/test/resources/file.txt");
+
+        assertFalse(b1);
+        assertFalse(b2);
+        assertFalse(b3);
+        assertTrue(b4);
+        assertTrue(b5);
+        assertTrue(b6);
+
+        assertThrows(IllegalArgumentException.class, () -> badWordFilter.exceptionFilter("ㅅㅂ", "src/test/resources/file.csv"));
+        assertThrows(IllegalArgumentException.class, () -> badWordFilter.exceptionFilter("ㅅㅂ", "src/test/resources/file.csv"));
+        assertThrows(IllegalArgumentException.class, () -> badWordFilter.exceptionFilter("ㅅㅂ", "src/test/resources/file.csv"));
+        assertDoesNotThrow(() -> badWordFilter.exceptionFilter("안녕", "src/test/resources/file.csv"));
+        assertDoesNotThrow(() -> badWordFilter.exceptionFilter("안녕", "src/test/resources/file.json"));
+        assertDoesNotThrow(() -> badWordFilter.exceptionFilter("안녕", "src/test/resources/file.txt"));
+
+        assertEquals("안녕", a1);
+        assertEquals("안녕", a2);
+        assertEquals("안녕", a3);
+        assertEquals("**", a4);
+        assertEquals("**", a5);
+        assertEquals("**", a6);
+
+        assertEquals("안녕", bl1);
+        assertEquals("안녕", bl2);
+        assertEquals("안녕", bl3);
+        assertEquals("  ", bl4);
+        assertEquals("  ", bl5);
+        assertEquals("  ", bl6);
+    }
+
+
+
 }
