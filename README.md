@@ -8,6 +8,16 @@ BadWordFilter filter = BadWordFilterFactory.badWordFilter();
 filter.booleanFilter("badword");
 
 ```
+- csv, txt 파일은 줄바꿈으로 구분됩니다.
+- json 형식
+```json
+{
+  "badword": [
+      "word1",
+      "word2"
+  ]
+}
+```
 
 
 ### 기능
